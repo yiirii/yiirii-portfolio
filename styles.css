@@ -2,7 +2,7 @@
     --bg-color: #ffffff;
     --text-color: #222222;
     --text-secondary: #555555;
-    --primary-color: #007bff;
+    --primary-color: #17ffc4;
     --card-bg: #f9f9f9;
     --border-color: #eeeeee;
     --shadow-color: rgba(0, 0, 0, 0.05);
@@ -15,7 +15,7 @@ body.dark-theme {
     --bg-color: #1a1a1a;
     --text-color: #eeeeee;
     --text-secondary: #bbbbbb;
-    --primary-color: #00aaff;
+    --primary-color: #17ffc4;
     --card-bg: #2a2a2a;
     --border-color: #333333;
     --shadow-color: rgba(0, 0, 0, 0.2);
