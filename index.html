@@ -142,25 +142,39 @@
             <h2>Get In Touch</h2>
             <p>
                 I'm always open to new opportunities and challenges.
-                Feel free to reach.
+                Feel free to reach out.
             </p>
             <div class="contact-links">
-                <a href="mailto:justinooiyiery@gmail.com">
-                    <span class="material-symbols-outlined">email</span>
-                    justinooiyiery@gmail.com
-                </a>
-                <a>
-                    <span class="material-symbols-outlined">call</span>
-                    +60109039153
-                </a>
-                <a>
-                    <span class="material-symbols-outlined">location_on</span>
-                    Kuala Lumpur
-                </a>
+                <div class="contact-item">
+                    <a href="mailto:justinooiyiery@gmail.com">
+                        <span class="material-symbols-outlined">email</span>
+                        justinooiyiery@gmail.com
+                    </a>
+                    <button class="copy-btn" data-copy="justinooiyiery@gmail.com" aria-label="Copy email">
+                        <span class="material-symbols-outlined">content_copy</span>
+                    </button>
+                </div>
+                <div class="contact-item">
+                    <a href="tel:+60109039153">
+                        <span class="material-symbols-outlined">call</span>
+                        +60109039153
+                    </a>
+                    <button class="copy-btn" data-copy="+60109039153" aria-label="Copy phone number">
+                        <span class="material-symbols-outlined">content_copy</span>
+                    </button>
+                </div>
+                <div class="contact-item">
+                    <a>
+                        <span class="material-symbols-outlined">location_on</span>
+                        Kuala Lumpur
+                    </a>
+                </div>
             </div>
         </section>
 
     </main>
+
+    <div id="copy-toast" class="toast">Copied to clipboard!</div>
 
     <footer>
         <p>&copy; 2025 Justin Ooi. All rights reserved.</p>
