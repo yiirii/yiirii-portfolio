@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justin's Funko Collection</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Rubik:wght@400;500&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <link rel="stylesheet" href="styles.css">
+    
+    <style>
+        .funko-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .funko-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 6px var(--shadow-color);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .funko-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 20px var(--shadow-color);
+        }
+
+        .funko-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: contain;
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px;
+        }
+        
+        body.dark-theme .funko-card img {
+            background-color: #333;
+            border-bottom: 1px solid #444;
+        }
+        
+        .funko-details {
+            padding: 1rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .funko-card h4 {
+            font-family: var(--font-body);
+            font-weight: 500;
+            font-size: 1rem;
+            color: var(--text-color);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .funko-description {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .loading-text {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            padding-top: 5rem;
+        }
+        
+        .collection-description {
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 600px;
+            margin: -2rem auto 2.5rem auto;
+            padding: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <a href="index.html#home" class="nav-logo">JUSTIN OOI</a>
+            <ul class="nav-links">
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="funko.html">Funko</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggleBtn" aria-label="Toggle theme">
+                <span class="material-symbols-outlined icon-light">light_mode</span>
+                <span class="material-symbols-outlined icon-dark">dark_mode</span>
+            </button>
+            <button class="menu-toggle" id="menuToggleBtn" aria-label="Toggle menu">
+                <span class="material-symbols-outlined icon-menu">menu</span>
+                <span class="material-symbols-outlined icon-close">close</span>
+            </button>
+        </nav>
+    </header>
+
+    <main style="padding-top: 100px;">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 2.5rem;">Funko Collection</h2>
+        <p class="collection-description">
+            As mentioned on my CV, I run a side business reselling Funko Pops.
+            Here's a look at my personal collection!
+        </p>
+        <div id="funkoGrid" class="funko-grid">
+            <p class="loading-text">Loading collection...</p>
+        </div>
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Justin Ooi. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Theme Toggle Logic ---
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            const body = document.body;
+
+            const preferredTheme = localStorage.getItem('theme');
+            if (preferredTheme === 'dark') {
+                body.classList.add('dark-theme');
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                body.classList.toggle('d-ark-theme');
+                localStorage.setItem('theme', body.classList.contains('dark-theme') ? 'dark' : 'light');
+            });
+
+            // --- Mobile Menu Logic ---
+            const menuToggleBtn = document.getElementById('menuToggleBtn');
+            const navLinks = document.querySelector('.nav-links');
+
+            menuToggleBtn.addEventListener('click', () => {
+                navLinks.classList.toggle('active');
+                menuToggleBtn.classList.toggle('active');
+            });
+
+            // --- Funko Data Fetching ---
+            async function loadFunkoData() {
+                const grid = document.getElementById('funkoGrid');
+                try {
+                    const response = await fetch('funko_data.json');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const data = await response.json();
+
+                    grid.innerHTML = ''; // Clear loading text
+
+                    if (data.length === 0) {
+                        grid.innerHTML = '<p class="loading-text">Collection is empty.</p>';
+                        return;
+                    }
+
+                    data.forEach(funko => {
+                        const card = document.createElement('div');
+                        card.className = 'funko-card';
+                        
+                        const img = document.createElement('img');
+                        img.src = `content/funko/${funko.path}`;
+                        img.alt = funko.title;
+                        img.onerror = () => { 
+                            img.alt = 'Image not found';
+                            img.src = 'https://placehold.co/220x220/eee/ccc?text=Not+Found'; 
+                        };
+                        
+                        const details = document.createElement('div');
+                        details.className = 'funko-details';
+
+                        const title = document.createElement('h4');
+                        title.textContent = funko.title;
+                        
+                        const description = document.createElement('p');
+                        description.className = 'funko-description';
+                        description.textContent = funko.description || ''; // Set description or empty string
+
+                        details.appendChild(title);
+                        details.appendChild(description);
+                        card.appendChild(img);
+                        card.appendChild(details);
+                        grid.appendChild(card);
+                    });
+
+                } catch (error) {
+                    console.error('Failed to load funko_data.json:', error);
+                    grid.innerHTML = '<p class="loading-text">Error loading collection. Please check console.</p>';
+                }
+            }
+
+            loadFunkoData();
+        });
+    </script>
+</body>
+</html>
+
