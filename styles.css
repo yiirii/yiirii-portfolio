@@ -308,6 +308,8 @@ body.dark-theme .theme-toggle .icon-light,
 .project-item {
     flex-basis: 552px;
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-description {
@@ -324,6 +326,7 @@ body.dark-theme .theme-toggle .icon-light,
     border-radius: 8px;
     box-shadow: 0 4px 6px var(--shadow-color);
     transition: all 0.3s ease;
+    margin-top: auto;
 }
 
 .itch-embeds iframe:hover {
